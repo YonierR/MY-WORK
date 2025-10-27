@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Online</title>
+
+    <style>
+        :root {
+            --color-principal: #008cba;
+            /* Azul de la marca */
+            --color-acento: #4CAF50;
+            /* Verde para precios/botones */
+            --color-fondo: #c6e9eef3;
+            /* Fondo muy claro */
+            --color-tarjeta: #e4eceee5;
+            /* Fondo blanco para las tarjetas */
+            --color-texto: #333333;
+            /* Color principal del texto */
+        }
+
+        body.dark-mode {
+            --color-principal: #13436d;
+            --color-acento: #66bb6a;
+            --color-fondo: #121212;
+            --color-tarjeta: #1f1f1f;
+            --color-texto: #f5f5f5;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--color-fondo);
+            padding: 0;
+            margin: 0;
+            line-height: 1.6;
+            color: var(--color-texto);
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        body.dark-mode {
+            background-color: var(--color-fondo);
+            color: var(--color-texto);
+        }
+
+        .contenedor-principal {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        header {
+            background-color: var(--color-principal);
+            color: rgb(245, 248, 248);
+            padding: 25px 0;
+            margin-bottom: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 3.5em;
+        }
+
+        main h2 {
+            text-align: center;
+            color: var(--color-principal);
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        article.product-card {
+            flex: 0 1 300px;
+            max-width: 100%;
+            background-color: var(--color-tarjeta);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        article.product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-content {
+            padding: 10px 15px;
+        }
+
+        .product-title {
+            font-size: 1.15em;
+            font-weight: 700;
+            margin: 8px 0 5px;
+        }
+
+        .product-description {
+            font-size: 0.85em;
+            color: var(--color-texto);
+            margin: 5px 0 10px;
+            height: 50px;
+            overflow: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        body.dark-mode .product-description {
+            color: var(--color-texto);
+        }
+
+        .product-price {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--color-principal);
+            margin: 15px 0;
+        }
+
+        .btn-detalle {
+            background-color: var(--color-principal);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn-detalle:hover {
+            background-color: #001aff;
+        }
+
+        .image-container {
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .image-container img {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            padding: 10px 15px;
+        }
+
+        .btn-detalles{
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+        }
+        .btn-detalles:hover{
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+        }
+
+        article.product-card {
+            transition:transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        article.product-card:hover {
+            transform: scale(1.05);
+        }
+
+        .modo-btn {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            padding: 8px 14px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .modo-btn:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        
+
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <h1>Tienda Informatica</h1>
+    </header>
+
+    <button class="modo-btn" onclick="toggleModo()">🌙</button>
+
+    <script>
+        function toggleModo() {
+            const body = document.body;
+            const boton = document.querySelector(".modo-btn");
+            body.classList.toggle("dark-mode");
+            boton.textContent = body.classList.contains("dark-mode") ? "☀️" : "🌙";
+            localStorage.setItem("modo", body.classList.contains("dark-mode"));
+        }
+
+        window.onload = function () {
+            const preferencia= localStorage.getItem("modo");
+            const hora=new Date().getHours();
+
+            if(preferencia !==null){
+                if(preferencia==="true"){
+                    document.body.classList.add("dark-mode");
+                    document.querySelector(".modo-btn").textContent="☀️";
+                }
+            }else{
+                if(hora>=18 || hora<6){
+                    document.body.classList.add("dark-mode");
+                    document.querySelector(".modo-btn").textContent="☀️";
+                }
+            }
+
+        };
+       
+    </script>
+
+    <div class="contenedor-principal">
+        <main>
+            <h2>Productos Populares</h2>
+            <div class="product-grid">
+
+                <article class="product-card">
+                    <div class="image-container">
+                        <img src="https://nissei.com/media/catalog/product/cache/24e3af3791642c18c52611620aeb2e21/c/a/camras.jpg"
+                            width="300" height="400">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="product-title">Camara Canon Eo5/R10</h3>
+                        <p class="product-description">
+                            Camara Digital Canon de alto enfoque,10 Graduaciones de lente
+                        </p>
+                        <div class="product-price">$580.000</div>
+                        <button class="btn-detalle">Ver Detalles</button>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="image-container">
+                        <img src="https://megacomputer.com.co/wp-content/uploads/2024/02/2-14.png.webp" width="300"
+                            height="400">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="product-title">Monitor LG</h3>
+                        <p class="product-description">
+                            Monitor LG 27MR400 Full HD 140hz 5mg
+                        </p>
+                        <div class="product-price">$990.999</div>
+                        <button class="btn-detalle">Ver Detalles</button>
+                    </div>
+                </article>
+
+
+                <article class="product-card">
+                    <div class="image-container">
+                        <img src="https://www.compuworld.me/wp-content/uploads/2024/04/Lenovo-Legion-M300-RGB-Gaming-Mouse.png"
+                            width="300" height="400">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="product-title">Mouse Ergonomico office</h3>
+                        <p class="product-description">
+                            Lenovo-Legion-M300-RGB-Gaming-Mouse
+                        </p>
+                        <div class="product-price">$80.000</div>
+                        <button class="btn-detalle">Ver Detalles</button>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="image-container">
+                        <img src="https://m.media-amazon.com/images/I/71FSIp+tDNL._AC_SL1500_.jpg" width="300"
+                            height="400">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="product-title">Teclado Led</h3>
+                        <p class="product-description">
+                            Teclado led RGB Redragon
+                        </p>
+                        <div class="product-price">$120.000</div>
+                        <button class="btn-detalle">Ver Detalles</button>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="image-container">
+                        <img src="https://www.logitechstore.com.co/cdn/shop/files/D_768842-MCO76550008840_052024-B_9252189e-54d9-4487-8b2d-0769da74065a.jpg?v=1749834192"
+                            width="300" height="400">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="product-title">Diadema RGB</h3>
+                        <p class="product-description">
+                            Diadema Gamer Logitech G733, Rgb Inalámbrica / 7.1 - Negro
+                        </p>
+                        <div class="product-price">$100.000</div>
+                        <button class="btn-detalle">Ver Detalles</button>
+                    </div>
+                </article>
+
+                <article class="product-card">
+                    <div class="image-container">
+                        <img src="https://images.nvidia.com/aem-dam/Solutions/geforce/news/geforce-rtx-graphics-cards/geforce-rtx-2080-technical-photography-angled-003.png"
+                            width="300" height="400">
+                    </div>
+                    <div class="card-content">
+                        <h3 class="product-title">GPU Nvidia</h3>
+                        <p class="product-description">
+                            Grafica Nvidia GForce RTX 2080
+                        </p>
+                        <div class="product-price">$1.200.000</div>
+                        <button class="btn-detalle">Ver Detalles</button>
+                    </div>
+                </article>
+
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>

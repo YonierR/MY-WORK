@@ -1,0 +1,68 @@
+1. ¿Qué comando se usa para crear un nuevo repositorio de Git?
+a) git new
+b) git start
+c) git init_______x 
+d) git create
+
+
+2. ¿Qué comando se usa para clonar un repositorio remoto?
+a) git copy
+b) git clone________x
+c) git fetch
+d) git replicate
+
+
+3. ¿Qué comando muestra el estado actual del repositorio?
+a) git status_______x
+b) git log
+c) git current
+d) git state
+
+
+4. ¿Cuál es el propósito del comando git add?
+a) Guardar cambios en el repositorio remoto
+b) Crear una rama nueva
+c) Añadir archivos al staging area_______x
+d) Revertir cambios
+
+
+5. ¿Qué comando se utiliza para confirmar (guardar) los cambios?
+a) git save
+b) git commit_______x
+c) git push
+d) git update
+
+
+6. ¿Qué comando sube los cambios confirmados al repositorio remoto?
+a) git upload
+b) git send
+c) git push__________x
+d) git share
+
+
+7. ¿Qué comando muestra el historial de commits?
+a) git history
+b) git commits
+c) git log_________x
+d) git list
+
+
+8. ¿Qué hace el comando git checkout -b nueva-rama?
+a) Cambia a la rama "nueva-rama"
+b) Crea y cambia a la rama "nueva-rama"
+c) Borra la rama "nueva-rama"_________x
+d) Fusiona la rama "nueva-rama"
+
+
+9. ¿Qué comando fusiona otra rama con la rama actual?
+a) git combine________x
+b) git join
+c) git pull
+d) git merge
+
+
+10. ¿Cuál comando elimina una rama local?
+a) git branch -d nombre______x
+b) git remove nombre
+c) git delete nombre
+d) git drop nombre
