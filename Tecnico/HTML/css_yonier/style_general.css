@@ -1,0 +1,229 @@
+
+        /* --- VARIABLES Y ESTILOS BASE --- */
+        :root {
+            --primary-blue: #008cba; /* bg-blue-800 */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color:  #c6e9eef3; /* grey-100 */
+            min-height: 100vh;
+        }
+
+        /* --- CONTENEDORES GENERALES --- */
+        .main-container {
+            max-width: 96rem; /* max-w-6xl */
+            margin-left: auto;
+            margin-right: auto;
+            padding: 1rem; /* p-4 */
+            --tw-space-y-reverse: 0;
+            margin-top: calc(3rem * (1 - var(--tw-space-y-reverse))); /* space-y-12 */
+            margin-bottom: calc(3rem * var(--tw-space-y-reverse));
+        }
+        @media (min-width: 768px) {
+            .main-container { padding: 2rem; /* md:p-8 */ }
+        }
+
+        .section-card {
+            border-radius: 0.75rem; /* rounded-xl */
+            --tw-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* shadow-2xl */
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+            padding: 1.5rem; /* p-6 */
+            text-align: center;
+            background-color: white; /* Default */
+        }
+        @media (min-width: 768px) {
+            .section-card { padding: 2.5rem; /* md:p-10 */ }
+        }
+
+        /* Clase de estilo para el separador visual de secciones (Mantener) */
+        .section-separator {
+            margin: 4rem auto 2rem;
+            text-align: center;
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: #008cba; /* gray-700 */
+            padding-bottom: 0.5rem;
+            border-bottom: 4px solid #d1d5db; /* gray-300 */
+            max-width: 800px;
+        }
+
+        /* --- ESTILOS INTERACTIVOS (Portafolio/Tienda) --- */
+        .interactive-card {
+            transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); /* shadow-lg */
+            border: 1px solid #f3f4f6; /* border-gray-100 */
+            border-radius: 0.75rem; /* rounded-xl */
+        }
+        .interactive-card:hover {
+            --tw-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* shadow-2xl */
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+            transform: scale(1.05);
+        }
+
+        /* --- 1. PRESENTACIÓN PERSONAL --- */
+        .personal-header {
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 1.5rem;
+            border-top-left-radius: 0.75rem;
+            border-top-right-radius: 0.75rem;
+        }
+        .personal-img {
+            border-radius: 9999px; /* rounded-full */
+            width: 12rem;
+            height: 12rem;
+            object-fit: cover;
+            margin: 0 auto 1.5rem;
+            --tw-ring-width: 4px;
+            --tw-ring-color: #3b82f6; /* ring-blue-500 */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); /* shadow-xl */
+        }
+        .personal-footer {
+            background-color: #1f2937; /* bg-gray-900 */
+            color: white;
+            padding: 0.75rem;
+            border-bottom-left-radius: 0.75rem;
+            border-bottom-right-radius: 0.75rem;
+        }
+
+        .btt_1{
+            background-color: #2563eb; /* bg-blue-600 */
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.15s;
+            margin: 0.5rem;
+        }
+        .btt_1:hover {
+            background-color: #1d4ed8; /* bg-blue-700 */
+        }
+        .btt_1:active {
+            transform: scale(0.95);
+        }
+        .btt_2{
+            background-color: #10b981; /* bg-emerald-500 */
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem; /* rounded-lg */
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.15s;
+            margin: 0.5rem;
+        }
+        .btt_2:hover {
+            background-color: #0e9f6e; /* bg-emerald-700 */
+        }
+        .btt_2:active {
+            transform: scale(0.95);
+        } 
+
+        /* --- 2. PORTAFOLIO DE PROYECTOS --- */
+        .portfolio-grid {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .portfolio-item {
+            background-color: white;
+            padding: 1.5rem;
+            width: 18rem;
+        }
+
+        /* --- 3. RESTAURANTE --- */
+        .restaurant-section { background-color: #fffbeb; /* bg-amber-50 */ }
+        .restaurant-header { background-color: #fbbf24; /* bg-amber-400 */ }
+        .restaurant-menu {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .restaurant-item {
+            background-color: white;
+            padding: 1rem;
+            width: 16rem;
+            border-top: 4px solid #d97706; /* border-amber-600 */
+        }
+
+        /* --- 4. TIENDA DE ROPA --- */
+        .store-section { background-color: #f0fdf4; /* bg-emerald-50 */ }
+        .store-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .store-item {
+            background-color: white;
+            padding: 1rem;
+            width: 13rem;
+        }
+        .store-img {
+            transition: transform 0.3s;
+        }
+        .store-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- 5. BLOG DE NOTICIAS --- */
+        .news-header {
+            background-color: #1f2937;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .news-article {
+            background-color: #f9fafb;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border-left: 4px solid #2563eb; /* border-blue-600 */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* --- 6. PÁGINA DE CONTACTO --- */
+        .contact-section { background-color: #eff6ff; /* bg-blue-50 */ }
+        .contact-form {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); /* shadow-xl */
+            border: 1px solid #bfdbfe; /* border-blue-200 */
+            width: 100%;
+            max-width: 32rem; /* max-w-lg */
+            text-align: left;
+            display: inline-block; /* Para centrar el formulario */
+        }
+        .form-label { display: block; color: #374151; font-weight: 500; margin-bottom: 0.25rem; }
+        .form-input {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .form-input:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.5);
+            outline: none;
+        }
+        .contact-button {
+            width: 100%;
+            background-color: #2563eb;
+            color: white;
+            font-weight: 700;
+            padding: 0.75rem 0;
+            border-radius: 0.5rem;
+            transition: background-color 0.15s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .contact-button:hover {
+            background-color: #1d4ed8;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
