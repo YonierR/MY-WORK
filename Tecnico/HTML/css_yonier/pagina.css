@@ -7,7 +7,7 @@
 }
 
 body {
-    background-color: #c6e9eef3;
+    background-color: #77c5d1f3;
 }
 
 /* ======= ENCABEZADO ======= */
@@ -68,7 +68,7 @@ body {
 /* ======= CONTENIDO PRINCIPAL ======= */
 .page-container {
     width: 100%;
-    background-color: #ffffff;
+    background-color: #c6e9eef3;
     padding: 40px;
     text-align: center;
 }
@@ -142,7 +142,7 @@ body {
 
 .productos-destacados h2 {
     font-size: 1.8rem;
-    color: #1e3a8a;
+    color:#008cba;
     margin-bottom: 25px;
 }
 
