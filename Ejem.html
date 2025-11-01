@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrusel Creativo 3D</title>
+    <!-- Carga de Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configuración para usar la fuente Inter -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Fondo oscuro */
+        }
+        /* CSS para el efecto 3D y la animación del carrusel */
+        #carousel-container {
+            /* Establece la perspectiva para el efecto 3D */
+            perspective: 1500px;
+        }
+        #carousel-track {
+            /* Define la transición suave para los movimientos */
+            transition: transform 0.8s ease-in-out;
+            transform-style: preserve-3d; /* Permite que los hijos utilicen transformaciones 3D */
+        }
+        .carousel-item {
+            /* Estilo base de los elementos del carrusel */
+            transition: all 0.5s ease-in-out;
+            opacity: 0.4;
+            transform: scale(0.9);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        .carousel-item.active {
+            /* Estilo para el elemento activo: enfocado y visible */
+            opacity: 1;
+            transform: scale(1);
+            box-shadow: 0 20px 60px rgba(79, 70, 229, 0.5); /* Sombra de color púrpura */
+        }
+        /* Estilos específicos para la navegación en pantallas pequeñas */
+        @media (max-width: 768px) {
+            #carousel-track {
+                flex-direction: column; /* Apila las tarjetas verticalmente en móvil */
+                align-items: center;
+                gap: 1rem;
+            }
+            .carousel-item {
+                width: 90%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
+
+    <div class="text-center mb-8">
+        <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-2">
+            Proyectos Creativos [Image of a lightbulb]
+        </h1>
+        <p class="text-lg text-gray-400">Una galería con perspectiva dinámica.</p>
+    </div>
+
+    <!-- Contenedor Principal del Carrusel -->
+    <div id="carousel-container" class="w-full max-w-6xl overflow-hidden relative rounded-xl">
+        
+        <!-- Pista del Carrusel (donde se aplica el transform) -->
+        <div id="carousel-track" class="flex items-center justify-start h-[450px] md:h-[550px] w-full">
+            
+            <!-- Item 1 -->
+            <div class="carousel-item p-6 md:p-8 bg-gray-800 rounded-2xl flex-none mx-4 w-64 md:w-80 h-[400px] md:h-[500px] flex flex-col justify-between border-t-4 border-indigo-500">
+                <div>
+                    <span class="text-xs font-semibold uppercase text-indigo-400 tracking-wider">Concepto</span>
+                    <h2 class="text-2xl font-bold text-white mt-2 mb-4">Realidad Aumentada</h2>
+                    <p class="text-gray-400 text-sm">Integración de elementos virtuales en el entorno real a través de dispositivos móviles.</p>
+                </div>
+                <button class="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition duration-300">
+                    Explorar Demo
+                </button>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="carousel-item p-6 md:p-8 bg-gray-800 rounded-2xl flex-none mx-4 w-64 md:w-80 h-[400px] md:h-[500px] flex flex-col justify-between border-t-4 border-teal-500">
+                <div>
+                    <span class="text-xs font-semibold uppercase text-teal-400 tracking-wider">Diseño</span>
+                    <h2 class="text-2xl font-bold text-white mt-2 mb-4">Sistema de Diseño Atómico</h2>
+                    <p class="text-gray-400 text-sm">Creación de componentes reutilizables y escalables para una experiencia de usuario consistente.</p>
+                </div>
+                <button class="w-full py-2 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg transition duration-300">
+                    Ver Documentación
+                </button>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="carousel-item p-6 md:p-8 bg-gray-800 rounded-2xl flex-none mx-4 w-64 md:w-80 h-[400px] md:h-[500px] flex flex-col justify-between border-t-4 border-rose-500">
+                <div>
+                    <span class="text-xs font-semibold uppercase text-rose-400 tracking-wider">Innovación</span>
+                    <h2 class="text-2xl font-bold text-white mt-2 mb-4">Redes Neuronales</h2>
+                    <p class="text-gray-400 text-sm">Un modelo de IA entrenado para la clasificación avanzada de imágenes y patrones complejos.</p>
+                </div>
+                <button class="w-full py-2 bg-rose-600 hover:bg-rose-700 text-white font-semibold rounded-lg transition duration-300">
+                    Revisar Código
+                </button>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="carousel-item p-6 md:p-8 bg-gray-800 rounded-2xl flex-none mx-4 w-64 md:w-80 h-[400px] md:h-[500px] flex flex-col justify-between border-t-4 border-yellow-500">
+                <div>
+                    <span class="text-xs font-semibold uppercase text-yellow-400 tracking-wider">Juego</span>
+                    <h2 class="text-2xl font-bold text-white mt-2 mb-4">Simulador de Vuelo Orbital</h2>
+                    <p class="text-gray-400 text-sm">Un juego 2D de física realista para experimentar la navegación en el espacio profundo.</p>
+                </div>
+                <button class="w-full py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg transition duration-300">
+                    Jugar Ahora
+                </button>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="carousel-item p-6 md:p-8 bg-gray-800 rounded-2xl flex-none mx-4 w-64 md:w-80 h-[400px] md:h-[500px] flex flex-col justify-between border-t-4 border-sky-500">
+                <div>
+                    <span class="text-xs font-semibold uppercase text-sky-400 tracking-wider">Analítica</span>
+                    <h2 class="text-2xl font-bold text-white mt-2 mb-4">Dashboard de Clientes</h2>
+                    <p class="text-gray-400 text-sm">Visualización de datos en tiempo real con gráficos interactivos y filtros dinámicos.</p>
+                </div>
+                <button class="w-full py-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold rounded-lg transition duration-300">
+                    Ver Panel
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Controles de Navegación -->
+        <div class="absolute inset-y-0 left-0 flex items-center">
+            <button onclick="navigateSlide(-1)" class="p-3 bg-white/20 hover:bg-white/40 rounded-r-xl transition duration-300 text-white focus:outline-none z-10 opacity-70 hover:opacity-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="absolute inset-y-0 right-0 flex items-center">
+            <button onclick="navigateSlide(1)" class="p-3 bg-white/20 hover:bg-white/40 rounded-l-xl transition duration-300 text-white focus:outline-none z-10 opacity-70 hover:opacity-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Indicadores de Posición -->
+    <div id="indicators" class="flex space-x-2 mt-8">
+        <!-- Los indicadores se generan con JS -->
+    </div>
+
+
+    <script>
+        const track = document.getElementById('carousel-track');
+        const items = Array.from(document.querySelectorAll('.carousel-item'));
+        const indicatorsContainer = document.getElementById('indicators');
+        const totalItems = items.length;
+        let currentIndex = 0;
+        let autoScrollInterval;
+
+        // --- FUNCIONES DE UTILIDAD ---
+
+        /**
+         * Inicializa los indicadores de posición.
+         */
+        function initializeIndicators() {
+            items.forEach((_, index) => {
+                const indicator = document.createElement('button');
+                indicator.classList.add('w-3', 'h-3', 'rounded-full', 'bg-gray-600', 'hover:bg-indigo-400', 'transition', 'duration-300');
+                indicator.setAttribute('data-index', index);
+                indicator.onclick = () => {
+                    currentIndex = index;
+                    updateCarousel(false);
+                    resetAutoScroll();
+                };
+                indicatorsContainer.appendChild(indicator);
+            });
+        }
+
+        /**
+         * Aplica las transformaciones 3D y la clase 'active' a la tarjeta correcta.
+         */
+        function updateCarousel(isAuto = true) {
+            // Calcula el desplazamiento horizontal para centrar el elemento activo
+            const centerOffset = (track.offsetWidth / 2) - (items[currentIndex].offsetWidth / 2) - items[currentIndex].offsetLeft;
+            
+            // Aplica la transformación de desplazamiento (traslación en X)
+            // Se usa el valor de la posición del elemento para centrarlo.
+            track.style.transform = `translateX(${centerOffset}px)`;
+
+            items.forEach((item, index) => {
+                item.classList.remove('active');
+                
+                // Calcula la distancia desde el elemento activo
+                const distance = index - currentIndex;
+                const absDistance = Math.abs(distance);
+                
+                let transformValue;
+                
+                if (index === currentIndex) {
+                    // El elemento central no tiene transformaciones extras (solo la clase 'active')
+                    item.classList.add('active');
+                    transformValue = 'translateZ(0px) scale(1)';
+                } else {
+                    // Calcula rotación y traslación para dar el efecto 3D
+                    const rotateY = distance < 0 ? 15 : -15; // Rota 15 grados hacia afuera
+                    const translateX = distance < 0 ? -120 : 120; // Mueve en X para separar
+                    const translateZ = -150 * absDistance; // Mueve en Z para dar profundidad
+                    
+                    transformValue = `translateX(${translateX}px) translateZ(${translateZ}px) rotateY(${rotateY}deg) scale(0.9)`;
+                }
+
+                item.style.transform = transformValue;
+                
+                // Actualiza los indicadores
+                const indicator = indicatorsContainer.querySelector(`[data-index="${index}"]`);
+                if (indicator) {
+                    indicator.classList.remove('bg-indigo-500', 'bg-gray-600');
+                    indicator.classList.add(index === currentIndex ? 'bg-indigo-500' : 'bg-gray-600');
+                }
+            });
+        }
+
+        /**
+         * Maneja la navegación manual o por temporizador.
+         * @param {number} direction - 1 para siguiente, -1 para anterior.
+         */
+        function navigateSlide(direction) {
+            currentIndex = (currentIndex + direction + totalItems) % totalItems;
+            updateCarousel(false);
+            resetAutoScroll();
+        }
+
+        /**
+         * Reinicia el temporizador de auto-scroll.
+         */
+        function resetAutoScroll() {
+            clearInterval(autoScrollInterval);
+            autoScrollInterval = setInterval(() => {
+                currentIndex = (currentIndex + 1) % totalItems;
+                updateCarousel(true);
+            }, 5000); // Cambia cada 5 segundos
+        }
+
+        /**
+         * Escucha los cambios de tamaño de pantalla para recalcular la posición
+         * de centrado en diferentes dispositivos.
+         */
+        function handleResize() {
+             // Retraso de 100ms para evitar múltiples ejecuciones durante el redimensionamiento
+            setTimeout(() => {
+                updateCarousel(false); 
+            }, 100);
+        }
+
+        // --- INICIALIZACIÓN ---
+
+        window.onload = function () {
+            initializeIndicators();
+            updateCarousel(false); // Renderizado inicial
+            resetAutoScroll();     // Inicia el auto-scroll
+            window.addEventListener('resize', handleResize);
+        }
+
+    </script>
+</body>
+</html>
