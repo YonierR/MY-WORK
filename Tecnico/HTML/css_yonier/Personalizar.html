@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYBER-ARCADE - Juegos del Futuro</title>
+    <!-- Carga de Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Michroma&display=swap');
+        
+        /* Configuración global y fondo temático */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fbfbfc; /* Azul oscuro profundo */
+            color: #eaedf1; /* Gris claro */
+            background-image: radial-gradient(#3c6868 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* Estilo para el Título Principal (estilo de logo/fuente) */
+        .arcade-title {
+            font-family: 'Michroma', sans-serif;
+            letter-spacing: 0.15em;
+            color: #bde2e9; /* Cian eléctrico */
+            text-shadow: 0 0 10px rgba(49, 85, 92, 0.8), 0 0 20px rgba(6, 182, 212, 0.5);
+        }
+
+        /* --- Estilos del Carrusel 3D --- */
+        .carousel-container {
+            width: 100%;
+            height: 400px;
+            position: relative;
+            /* Permite el efecto 3D */
+            perspective: 1200px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .carousel-slider {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s ease-in-out; /* Transición suave para rotación */
+        }
+
+        .carousel-item {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+            transition: opacity 0.6s, transform 0.6s;
+            backface-visibility: hidden; /* Evita artefactos al rotar */
+            
+            /* Estilo de tarjeta de juego */
+            background-color: #edecf0;
+            border: 2px solid #6263a8; /* Borde Morado */
+            box-shadow: 0 0 15px rgba(131, 181, 201, 0.4); /* Sombra neón morada */
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            cursor: pointer;
+        }
+        
+        /* Estilo para el item activo (el del frente) */
+        .carousel-item.active {
+            opacity: 1;
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.8), 0 0 60px rgba(139, 92, 246, 0.6);
+            border-color: #06b6d4;
+            transform: scale(1.1); /* Ligeramente más grande */
+        }
+        
+        .item-content {
+            padding: 1rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+            color: white;
+        }
+        
+    </style>
+</head>
+<body class="text-gray-100 min-h-screen">
+
+    <!-- Encabezado Fijo -->
+    <header class="sticky top-0 bg-[#080312]/90 backdrop-blur-sm z-50 shadow-2xl shadow-purple-900/50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <h1 class="text-4xl font-extrabold arcade-title">
+                Electronicos A11
+            </h1>
+            <nav class="hidden md:flex space-x-8 font-medium text-gray-400">
+                <a href="#carousel" class="hover:text-cyan-400 transition duration-300">Destacados</a>
+                <a href="#juegos" class="hover:text-cyan-400 transition duration-300">Catálogo</a>
+                <a href="#noticias" class="hover:text-cyan-400 transition duration-300">Noticias</a>
+            </nav>
+            <button class="hidden md:block text-sm font-semibold text-white bg-purple-600 hover:bg-purple-500 py-2 px-4 rounded-lg shadow-lg shadow-purple-600/50 transition duration-300">
+                Mi Perfil
+            </button>
+        </div>
+    </header>
+
+    <!-- Sección Principal (HERO) -->
+    <section class="h-[75vh] flex items-center justify-center text-center p-6 md:p-12 border-b border-purple-800/50" style="background-image: linear-gradient(to top, #315879, #f5f5f5);">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-5xl sm:text-7xl font-black mb-6 leading-tight arcade-title text-cyan-400">
+                Descubre Nuevos Mundos 
+            </h2>
+            <p class="text-xl md:text-2xl mb-10 text-gray-300 max-w-2xl mx-auto">
+                La biblioteca de juegos más avanzada. Solo lo mejor, solo lo más inmersivo.
+            </p>
+            
+            <a href="#juegos" class="inline-block bg-cyan-600 hover:bg-cyan-500 text-[#080312] font-extrabold py-3 px-10 rounded-lg text-lg shadow-xl shadow-cyan-600/50 transition duration-300 transform hover:scale-105">
+                Ver Catálogo Completo
+            </a>
+        </div>
+    </section>
+
+    <!-- Sección del Carrusel 3D (Destacados) -->
+    <section id="carousel" class="py-16 md:py-20 bg-[#120a22]/50">
+        <h3 class="text-3xl font-extrabold text-center mb-10 text-white arcade-title">
+            Lanzamientos y Exclusivas
+        </h3>
+        
+        <div id="gameCarousel" class="carousel-container">
+            <div id="carouselSlider" class="carousel-slider">
+                <!-- Ítem 1 -->
+                <div class="carousel-item" data-title="Shadowrun: Neo-City" style="background-image: url('https://placehold.co/300x300/6366f1/FFF?text=GAME+1'); background-size: cover; background-position: center;">
+                    <div class="item-content">
+                        <p class="text-lg font-bold">Shadowrun: Neo-City</p>
+                        <p class="text-xs text-cyan-400">¡Disponible ahora!</p>
+                    </div>
+                </div>
+                <!-- Ítem 2 -->
+                <div class="carousel-item" data-title="Galaxy Drift 5" style="background-image: url('https://placehold.co/300x300/f87171/FFF?text=GAME+2'); background-size: cover; background-position: center;">
+                    <div class="item-content">
+                        <p class="text-lg font-bold">Galaxy Drift 5</p>
+                        <p class="text-xs text-cyan-400">Carreras espaciales</p>
+                    </div>
+                </div>
+                <!-- Ítem 3 -->
+                <div class="carousel-item" data-title="The Last Sentinel" style="background-image: url('https://placehold.co/300x300/a3e635/FFF?text=GAME+3'); background-size: cover; background-position: center;">
+                    <div class="item-content">
+                        <p class="text-lg font-bold">The Last Sentinel</p>
+                        <p class="text-xs text-cyan-400">Aventura Post-Apocalíptica</p>
+                    </div>
+                </div>
+                <!-- Ítem 4 -->
+                <div class="carousel-item" data-title="Code Weaver" style="background-image: url('https://placehold.co/300x300/38bdf8/FFF?text=GAME+4'); background-size: cover; background-position: center;">
+                    <div class="item-content">
+                        <p class="text-lg font-bold">Code Weaver</p>
+                        <p class="text-xs text-cyan-400">RPG de Hackeo</p>
+                    </div>
+                </div>
+                <!-- Ítem 5 -->
+                <div class="carousel-item" data-title="Mythic Arena" style="background-image: url('https://placehold.co/300x300/fb923c/FFF?text=GAME+5'); background-size: cover; background-position: center;">
+                    <div class="item-content">
+                        <p class="text-lg font-bold">Mythic Arena</p>
+                        <p class="text-xs text-cyan-400">MMO Fantástico</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Controles del Carrusel -->
+            <button onclick="prevSlide()" class="absolute left-4 md:left-1/4 z-30 p-3 rounded-full bg-purple-700/80 hover:bg-purple-600 transition duration-300 shadow-xl shadow-purple-600/50 text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            </button>
+            <button onclick="nextSlide()" class="absolute right-4 md:right-1/4 z-30 p-3 rounded-full bg-purple-700/80 hover:bg-purple-600 transition duration-300 shadow-xl shadow-purple-600/50 text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            </button>
+        </div>
+    </section>
+    
+    <!-- Sección del Catálogo (Grid de Juegos) -->
+    <section id="juegos" class="py-20 md:py-28 bg-[#080312]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-3xl font-extrabold text-center mb-12 text-white border-b-2 border-cyan-500/50 pb-2 inline-block">Catálogo Principal</h3>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Tarjeta de Juego Ejemplo 1 -->
+                <div class="bg-[#1a0f30] rounded-lg overflow-hidden shadow-lg border border-purple-800 transition duration-300 hover:shadow-cyan-400/30 hover:border-cyan-500">
+                    <img src="https://placehold.co/400x250/374151/FFF?text=Aventura+RPG" alt="Aventura RPG" class="w-full h-32 object-cover">
+                    <div class="p-4">
+                        <p class="text-sm text-cyan-400">RPG, Fantasía</p>
+                        <h4 class="text-lg font-bold text-white mb-2">Ecos del Vacío</h4>
+                        <button class="w-full text-sm bg-purple-600 hover:bg-purple-500 py-1 rounded-md transition">Comprar</button>
+                    </div>
+                </div>
+                <!-- Tarjeta de Juego Ejemplo 2 -->
+                <div class="bg-[#1a0f30] rounded-lg overflow-hidden shadow-lg border border-purple-800 transition duration-300 hover:shadow-cyan-400/30 hover:border-cyan-500">
+                    <img src="https://placehold.co/400x250/374151/FFF?text=Acción+FPS" alt="Acción FPS" class="w-full h-32 object-cover">
+                    <div class="p-4">
+                        <p class="text-sm text-cyan-400">FPS, Sci-Fi</p>
+                        <h4 class="text-lg font-bold text-white mb-2">Sector 7 Gamma</h4>
+                        <button class="w-full text-sm bg-purple-600 hover:bg-purple-500 py-1 rounded-md transition">Comprar</button>
+                    </div>
+                </div>
+                 <!-- Tarjeta de Juego Ejemplo 3 -->
+                <div class="bg-[#1a0f30] rounded-lg overflow-hidden shadow-lg border border-purple-800 transition duration-300 hover:shadow-cyan-400/30 hover:border-cyan-500">
+                    <img src="https://placehold.co/400x250/374151/FFF?text=Estrategia" alt="Estrategia" class="w-full h-32 object-cover">
+                    <div class="p-4">
+                        <p class="text-sm text-cyan-400">Estrategia, RTS</p>
+                        <h4 class="text-lg font-bold text-white mb-2">Dominio Cósmico</h4>
+                        <button class="w-full text-sm bg-purple-600 hover:bg-purple-500 py-1 rounded-md transition">Comprar</button>
+                    </div>
+                </div>
+                 <!-- Tarjeta de Juego Ejemplo 4 -->
+                <div class="bg-[#1a0f30] rounded-lg overflow-hidden shadow-lg border border-purple-800 transition duration-300 hover:shadow-cyan-400/30 hover:border-cyan-500">
+                    <img src="https://placehold.co/400x250/374151/FFF?text=Indie+Puzzle" alt="Indie Puzzle" class="w-full h-32 object-cover">
+                    <div class="p-4">
+                        <p class="text-sm text-cyan-400">Indie, Puzzle</p>
+                        <h4 class="text-lg font-bold text-white mb-2">La Caja de Turing</h4>
+                        <button class="w-full text-sm bg-purple-600 hover:bg-purple-500 py-1 rounded-md transition">Comprar</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12">
+                <a href="#" class="inline-block border-2 border-cyan-500 text-cyan-400 font-bold py-2 px-6 rounded-full hover:bg-cyan-500 hover:text-[#080312] transition duration-300">
+                    Ver Todos los Géneros
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Noticias -->
+    <section id="noticias" class="py-20 md:py-28 bg-[#120a22]/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+             <h3 class="text-3xl font-extrabold text-center mb-12 text-white border-b-2 border-purple-500/50 pb-2 inline-block">Últimas Noticias</h3>
+             
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                 <!-- Noticia 1 -->
+                 <div class="bg-[#1a0f30] p-6 rounded-lg shadow-lg">
+                     <p class="text-xs text-gray-500 mb-2">25 Octubre, 2024</p>
+                     <h4 class="text-xl font-bold text-cyan-400 mb-2">Parche 2.0 llega a Shadowrun</h4>
+                     <p class="text-sm text-gray-400">Nuevas misiones, armas y ajustes de balance para la temporada competitiva.</p>
+                 </div>
+                 <!-- Noticia 2 -->
+                 <div class="bg-[#1a0f30] p-6 rounded-lg shadow-lg">
+                     <p class="text-xs text-gray-500 mb-2">18 Octubre, 2024</p>
+                     <h4 class="text-xl font-bold text-cyan-400 mb-2">Revelación del tráiler de Dominio Cósmico 2</h4>
+                     <p class="text-sm text-gray-400">El nuevo RTS promete gráficos 4K y batallas masivas sin precedentes.</p>
+                 </div>
+                 <!-- Noticia 3 -->
+                 <div class="bg-[#1a0f30] p-6 rounded-lg shadow-lg">
+                     <p class="text-xs text-gray-500 mb-2">10 Octubre, 2024</p>
+                     <h4 class="text-xl font-bold text-cyan-400 mb-2">Ofertas de Halloween</h4>
+                     <p class="text-sm text-gray-400">Descuentos de hasta el 70% en juegos de terror y suspenso. ¡Por tiempo limitado!</p>
+                 </div>
+             </div>
+        </div>
+    </section>
+
+    <!-- Pie de Página -->
+    <footer class="bg-[#080312] py-8 border-t border-purple-900">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-500">
+            <h4 class="text-xl font-bold text-white mb-2 arcade-title">CYBER-ARCADE</h4>
+            <p>&copy; 2024 CYBER-ARCADE. Todos los derechos reservados.</p>
+            <p class="mt-2 text-xs">Términos de Servicio | Política de Privacidad | Soporte</p>
+        </div>
+    </footer>
+
+    <!-- Lógica JavaScript para el Carrusel 3D -->
+    <script>
+        // Variables globales del carrusel
+        let currentSlide = 0;
+        const slider = document.getElementById('carouselSlider');
+        const items = document.querySelectorAll('.carousel-item');
+        const totalSlides = items.length;
+        const angle = 360 / totalSlides;
+        
+        // Función para calcular el radio del círculo 3D (Z-translation)
+        function getRadius() {
+            const itemWidth = slider.offsetWidth;
+            // Cálculo simple del radio (radio = (ancho / 2) / tan(ángulo / 2))
+            return Math.round((itemWidth / 2) / Math.tan(Math.PI / totalSlides));
+        }
+
+        // Función principal para actualizar la posición y rotación de los elementos
+        function updateCarousel() {
+            const radius = getRadius();
+            const rotation = currentSlide * angle;
+
+            // 1. Aplicar la rotación al contenedor principal (slider)
+            slider.style.transform = `translateZ(-${radius}px) rotateY(-${rotation}deg)`;
+
+            // 2. Posicionar cada tarjeta individualmente
+            items.forEach((item, index) => {
+                const itemRotation = index * angle;
+                item.style.transform = `rotateY(${itemRotation}deg) translateZ(${radius}px)`;
+                
+                // Marcar el elemento activo (el que está de frente)
+                item.classList.remove('active');
+                if (index === currentSlide) {
+                    item.classList.add('active');
+                }
+            });
+        }
+        
+        // Función para ir al slide anterior
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        // Función para ir al slide siguiente
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateCarousel();
+        }
+
+        // Inicializar el carrusel al cargar la página
+        window.onload = function() {
+            updateCarousel();
+            
+            // Opcional: Auto-rotación
+            setInterval(nextSlide, 5000); 
+
+            // Manejo de eventos de redimensionamiento para ajustar el radio 3D
+            window.addEventListener('resize', updateCarousel);
+        }
+    </script>
+</body>
+</html>
