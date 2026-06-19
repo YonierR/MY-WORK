@@ -55,6 +55,9 @@ router.get('/Calificacion/:nota', (req, res) => {
 //aun me custa usar thunderclient para subir esquemas y ensima no me funciona el mongoose.
 //Pstt, Que pase bien estas Vacasiones.
 
+//intento probar iniciar el servidor pero no me funciona mongoose, es mas un error de los servicios de mi PC,creo.
+//como sea el codigo esta bien, más no lo pude probar.
+
 router.get('/todos', async (req, res) => {
     try{
         const route = await modelo.find();
