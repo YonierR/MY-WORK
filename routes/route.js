@@ -7,10 +7,6 @@ router.get('/', (req, res) => {
     res.send('Ruta principal');
 });
 
-router.get('/:nombre', (req, res) => {
-    const nombre = req.params.nombre;
-    res.send(`Hola, ${nombre}`);
-});
 
 router.get('/Suma/:n1/:n2', (req, res) => {
     const n1 = Number(req.params.n1);
@@ -192,11 +188,16 @@ router.get('/todos/categoria', async (req, res) => {
 
 router.get('/todos/:id', async (req, res) => {
     try {
-        const route = await modelo.findById(req.params.id);
+        const route = await modelo.findByI  d(req.params.id);
         res.json(route);
     } catch (error) {
         res.status(500).json(error);
     }
+});
+
+router.get('/:nombre', (req, res) => {
+    const nombre = req.params.nombre;
+    res.send(`Hola, ${nombre}`);
 });
 
 module.exports = router;

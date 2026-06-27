@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema(
         required: true,
     },
 
-    Precio: {
+    precio: {
         type: Number,
         required: true,
         min: 0,
