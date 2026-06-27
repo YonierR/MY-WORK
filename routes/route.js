@@ -188,7 +188,7 @@ router.get('/todos/categoria', async (req, res) => {
 
 router.get('/todos/:id', async (req, res) => {
     try {
-        const route = await modelo.findByI  d(req.params.id);
+        const route = await modelo.findById(req.params.id);
         res.json(route);
     } catch (error) {
         res.status(500).json(error);
