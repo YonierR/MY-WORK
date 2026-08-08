@@ -11,7 +11,7 @@ const obtener  = async () =>{
 
 const crear = async (datos) =>{
     try{
-    const user= await User.create(datos);
+    const user = await User.create(datos);
     return user.save()
     }catch(err){
         return err.message

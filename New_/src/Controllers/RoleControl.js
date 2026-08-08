@@ -23,13 +23,13 @@ const deleteRole = async (req,res) =>{
         const roles = await services.eleminar(req.params.id);
         res.json(roles);
     }catch(err){
-        res.status(500).json(error);
+        res.status(500).json(err);
     }
 }
 
 const updateRole = async (req,res) =>{
     try{
-        const role = await services.update(req.paramas.id,req.body)
+        const roles = await services.update(req.params.id,req.body)
         res.json(roles);
     }catch(err){
         res.status(500).json(err);
