@@ -1,12 +1,23 @@
-const User = require("../Models/model");
+const User = require("../Models/User");
 
 const obtener  = async () =>{
-    return await User.find();
+    try{
+    const user= await User.find().populate("role");
+        return user
+    }catch(err){
+       return err
+    }
 }
 
 const crear = async (datos) =>{
-    return await User.create(datos);
+    try{
+    const user= await User.create(datos);
+    return user.save()
+    }catch(err){
+        return err.message
+    }
 }
+
 
 const actualizar = async (id,datos) =>{
     return await User.findByIdAndUpdate(id,datos,
