@@ -1,5 +1,5 @@
-import * as prestamoModel from '../models/prestamoModel.js';
-import { withTransaction } from '../db/index.js';
+import { Cliente, Prestamo, Cuota } from '../models/index.js';
+import { sequelize } from '../db/sequelize.js';
 
 function avanzarFecha(fecha, periodicidad, n) {
   const d = new Date(fecha);
@@ -11,13 +11,33 @@ function avanzarFecha(fecha, periodicidad, n) {
   return d.toISOString().slice(0, 10);
 }
 
-export const listar = (filtros) => prestamoModel.findAll(filtros);
+export async function listar({ estado, cliente_id } = {}) {
+  const where = {};
+  if (estado)     where.estado = estado;
+  if (cliente_id) where.cliente_id = cliente_id;
+
+  const rows = await Prestamo.findAll({
+    where,
+    include: [{ model: Cliente, as: 'cliente', attributes: ['nombre'] }],
+    order: [['created_at', 'DESC']],
+  });
+  // Mantener contrato plano (cliente_nombre) que ya consume el frontend
+  return rows.map(p => ({ ...p.toJSON(), cliente_nombre: p.cliente?.nombre ?? null }));
+}
 
 export async function obtenerPorId(id) {
-  const p = await prestamoModel.findById(id);
+  const p = await Prestamo.findByPk(id, {
+    include: [
+      { model: Cliente, as: 'cliente', attributes: ['nombre'] },
+      { model: Cuota,   as: 'cuotas' },
+    ],
+  });
   if (!p) throw Object.assign(new Error('Préstamo no encontrado'), { status: 404 });
-  const cuotas = await prestamoModel.findCuotasByPrestamo(id);
-  return { ...p, cuotas };
+
+  const data = p.toJSON();
+  data.cuotas.sort((a, b) => a.numero - b.numero);
+  data.cliente_nombre = data.cliente?.nombre ?? null;
+  return data;
 }
 
 export async function crear(data) {
@@ -32,35 +52,44 @@ export async function crear(data) {
   const montoCuota = Number((totalPagar / n_cuotas).toFixed(2));
   const ajuste     = Number((totalPagar - montoCuota * (n_cuotas - 1)).toFixed(2));
 
-  // 🐛 FIX: transacción atómica — no quedan préstamos huérfanos si falla una cuota
-  return withTransaction(async (client) => {
-    const prestamo = await prestamoModel.createTx(client, {
+  const id = await sequelize.transaction(async (t) => {
+    const prestamo = await Prestamo.create({
       cliente_id, monto, tasa_pct, n_cuotas, periodicidad,
-      fecha_desembolso, fecha_primera_cuota, observacion, total_pagar: totalPagar,
-    });
+      fecha_desembolso, fecha_primera_cuota, observacion,
+      total_pagar: totalPagar,
+      saldo: totalPagar,
+      estado: 'ACTIVO',
+    }, { transaction: t });
 
+    const cuotas = [];
     for (let i = 1; i <= n_cuotas; i++) {
-      const fechaLimite = avanzarFecha(fecha_primera_cuota, periodicidad, i - 1);
-      const montoI = i === n_cuotas ? ajuste : montoCuota;
-      await prestamoModel.createCuotaTx(client, {
-        prestamo_id: prestamo.id, numero: i,
-        fecha_limite: fechaLimite, monto: montoI,
+      cuotas.push({
+        prestamo_id: prestamo.id,
+        numero: i,
+        fecha_limite: avanzarFecha(fecha_primera_cuota, periodicidad, i - 1),
+        monto: i === n_cuotas ? ajuste : montoCuota,
       });
     }
-
-    const cuotas = await prestamoModel.findCuotasByPrestamo(prestamo.id, client);
-    return { ...prestamo, cuotas };
+    await Cuota.bulkCreate(cuotas, { transaction: t });
+    return prestamo.id;
   });
+
+  return obtenerPorId(id);
 }
 
 export async function actualizar(id, data) {
-  const p = await prestamoModel.update(id, data);
+  const p = await Prestamo.findByPk(id);
   if (!p) throw Object.assign(new Error('Préstamo no encontrado'), { status: 404 });
+  await p.update({
+    observacion: data.observacion ?? p.observacion,
+    estado:      data.estado      ?? p.estado,
+  });
   return p;
 }
 
 export async function cancelar(id) {
-  const p = await prestamoModel.updateEstado(id, 'CANCELADO');
+  const p = await Prestamo.findByPk(id);
   if (!p) throw Object.assign(new Error('Préstamo no encontrado'), { status: 404 });
+  await p.update({ estado: 'CANCELADO' });
   return { mensaje: 'Préstamo cancelado', prestamo: p };
 }

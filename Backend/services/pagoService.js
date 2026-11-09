@@ -1,52 +1,54 @@
-import * as pagoModel from '../models/pagoModel.js';
-import * as cuotaModel from '../models/cuotaModel.js';
-import * as prestamoModel from '../models/prestamoModel.js';
-import { withTransaction } from '../db/index.js';
+import { Pago, Cuota, Prestamo } from '../models/index.js';
+import { sequelize } from '../db/sequelize.js';
 
-export const listar = (filtros) => pagoModel.findAll(filtros);
+export async function listar({ prestamo_id, cuota_id } = {}) {
+  const where = {};
+  if (prestamo_id) where.prestamo_id = prestamo_id;
+  if (cuota_id)    where.cuota_id = cuota_id;
+  return Pago.findAll({ where, order: [['fecha_pago', 'DESC'], ['id', 'DESC']] });
+}
 
 export async function registrar(data) {
   const { cuota_id, prestamo_id, monto, fecha_pago, observacion } = data;
-
   if (!cuota_id || !prestamo_id || !monto) {
-    throw Object.assign(
-      new Error('cuota_id, prestamo_id y monto son obligatorios'),
-      { status: 400 }
-    );
+    throw Object.assign(new Error('cuota_id, prestamo_id y monto son obligatorios'), { status: 400 });
   }
 
-  return withTransaction(async (client) => {
-    const cuota = await cuotaModel.lockByIdTx(client, cuota_id);
+  return sequelize.transaction(async (t) => {
+    const cuota = await Cuota.findByPk(cuota_id, {
+      transaction: t,
+      lock: t.LOCK.UPDATE,
+    });
     if (!cuota) throw Object.assign(new Error('Cuota no encontrada'), { status: 404 });
 
     const pendiente = Number(cuota.monto) - Number(cuota.monto_pagado);
     if (Number(monto) > pendiente) {
-      throw Object.assign(
-        new Error(`El monto excede lo pendiente (${pendiente})`),
-        { status: 400 }  // ← mismo status que antes
-      );
+      throw Object.assign(new Error(`El monto excede lo pendiente (${pendiente})`), { status: 400 });
     }
 
-    const pago = await pagoModel.createTx(client, {
-      cuota_id, prestamo_id, monto, fecha_pago, observacion,
-    });
+    const pago = await Pago.create({
+      cuota_id, prestamo_id, monto,
+      fecha_pago: fecha_pago ?? new Date().toISOString().slice(0, 10),
+      observacion,
+    }, { transaction: t });
 
     const nuevoPagado = Number(cuota.monto_pagado) + Number(monto);
-    let nuevoEstado;
-    if (nuevoPagado >= Number(cuota.monto)) nuevoEstado = 'PAGADA';
-    else if (nuevoPagado > 0)                nuevoEstado = 'PARCIAL';
-    else                                      nuevoEstado = 'PENDIENTE';
+    const nuevoEstado =
+      nuevoPagado >= Number(cuota.monto) ? 'PAGADA'
+      : nuevoPagado > 0                  ? 'PARCIAL'
+      : 'PENDIENTE';
+    await cuota.update({ monto_pagado: nuevoPagado, estado: nuevoEstado }, { transaction: t });
 
-    await cuotaModel.updatePagoTx(client, cuota_id, nuevoPagado, nuevoEstado);
-
-    const prestamo = await prestamoModel.updateSaldoTx(client, prestamo_id, monto);
-    if (Number(prestamo.saldo) <= 0) {
-      await prestamoModel.updateEstadoTx(client, prestamo_id, 'PAGADO');
-    }
+    const prestamo = await Prestamo.findByPk(prestamo_id, { transaction: t, lock: t.LOCK.UPDATE });
+    const nuevoSaldo = Number(prestamo.saldo) - Number(monto);
+    await prestamo.update({
+      saldo: nuevoSaldo <= 0 ? 0 : nuevoSaldo,
+      estado: nuevoSaldo <= 0 ? 'PAGADO' : prestamo.estado,
+    }, { transaction: t });
 
     return {
       pago,
-      cuota: { ...cuota, monto_pagado: nuevoPagado, estado: nuevoEstado },
+      cuota: { ...cuota.toJSON(), monto_pagado: nuevoPagado, estado: nuevoEstado },
     };
   });
 }
