@@ -10,6 +10,7 @@ import cuotasRouter         from './routes/cuotas.js';
 import pagosRouter          from './routes/pagos.js';
 import notificacionesRouter from './routes/notificaciones.js';
 import usuariosRouter       from './routes/usuarios.js';
+import dashboardRouter from './routes/dashboard.js';
 
 dotenv.config();
 const app = express();
@@ -38,6 +39,7 @@ app.use('/api/cuotas',         cuotasRouter);
 app.use('/api/pagos',          pagosRouter);
 app.use('/api/notificaciones', notificacionesRouter);
 app.use('/api/usuarios',       usuariosRouter);
+app.use('/api/dashboard', dashboardRouter);
 
 // 404
 app.use(notFound);
